@@ -39,6 +39,26 @@ class ISONewsScraperEnhanced:
                 "scrape_function": self.scrape_sgs_chile_news
             }
         }
+        self.hardcoded_articles = [
+            {
+                "title": "San Antonio Terminal Internacional renueva certificaciones ISO 9001 e ISO 14001",
+                "url": "https://www.empresaoceano.cl/san-antonio-terminal-internacional-renueva-certificaciones-iso-9001-e",
+                "source": "Empresa Oceano",
+                "date": "25/03/2025"
+            },
+            {
+                "title": "AdClean obtiene la certificación ISO 9001 otorgada por Bureau Veritas",
+                "url": "https://www.adclean.cl/blogs/noticias/certificacion-iso-9001",
+                "source": "Bureau Veritas",
+                "date": "21/11/2023"
+            },
+            {
+                "title": "CMP certifica su modelo GRP con tres normas internacionales ISO",
+                "url": "https://www.reporteminero.cl/noticia/noticias/2025/07/cmp-certifica-su-modelo-grp-con-tres-normas-internacionales-iso",
+                "source": "Reporte Minero",
+                "date": "01/07/2025"
+            }
+        ]
 
     def scrape_sgs_chile_news(self) -> List[Dict[str, str]]:
         """
@@ -135,7 +155,16 @@ class ISONewsScraperEnhanced:
             if og_image:
                 content_data['image_url'] = urljoin(article_url, og_image['content'])
             else:
-                content_img = soup.select_one('.entry-content img, .post-content img, .article-body img, .content img, article img')
+                # More specific selectors for different site structures
+                selectors = [
+                    '.entry-content img',
+                    '.post-content img',
+                    '.article-body img',
+                    '.content img',
+                    'article img',
+                    'img[src*="/wp-content/uploads/"]' # Specific fallback for WordPress sites
+                ]
+                content_img = soup.select_one(', '.join(selectors))
                 if content_img and content_img.get('src'):
                     content_data['image_url'] = urljoin(article_url, content_img['src'])
 
@@ -193,24 +222,35 @@ class ISONewsScraperEnhanced:
         Ejecuta el scraping de todas las fuentes y genera el archivo JSON.
         """
         self.logger.info("Iniciando el scraping de noticias ISO en español.")
-        all_articles = []
+        scraped_articles = []
 
         for source_name, source_data in self.sources.items():
             self.logger.info(f"Procesando fuente: {source_name}")
             base_articles = source_data["scrape_function"]()
+            scraped_articles.extend(base_articles)
 
-            for article in base_articles:
-                content = self.scrape_article_content(article['url'])
-                article.update(content)
-                article['scraped_at'] = datetime.now().isoformat()
-                all_articles.append(article)
-                time.sleep(1)
+        # Combinar artículos scrapeados y hardcodeados, y de-duplicar
+        all_articles_dict = {article['url']: article for article in scraped_articles}
+        for article in self.hardcoded_articles:
+            if article['url'] not in all_articles_dict:
+                all_articles_dict[article['url']] = article
+
+        articles_to_process = list(all_articles_dict.values())
+        self.logger.info(f"Procesando un total de {len(articles_to_process)} artículos únicos.")
+
+        final_articles = []
+        for article in articles_to_process:
+            content = self.scrape_article_content(article['url'])
+            article.update(content)
+            article['scraped_at'] = datetime.now().isoformat()
+            final_articles.append(article)
+            time.sleep(1)
 
         files_generated = {}
-        if all_articles:
+        if final_articles:
             timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
             files_generated['articles'] = self.save_results_json(
-                all_articles, f'iso_news_articulos_{timestamp}.json'
+                final_articles, f'iso_news_articulos_{timestamp}.json'
             )
         else:
             self.logger.info("No se encontraron artículos para guardar.")
