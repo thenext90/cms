@@ -33,8 +33,48 @@ class ISONewsScraperEnhanced:
             "isoexpertise": {
                 "url": "https://www.isoexpertise.com/noticias/",
                 "scrape_function": self.scrape_isoexpertise_news
+            },
+            "sgs_chile": {
+                "url": "https://www.sgs.com/es-cl/noticias",
+                "scrape_function": self.scrape_sgs_chile_news
             }
         }
+
+    def scrape_sgs_chile_news(self) -> List[Dict[str, str]]:
+        """
+        Extrae la lista de noticias de la página de noticias de SGS Chile.
+        """
+        url = self.sources['sgs_chile']['url']
+        self.logger.info(f"Extrayendo lista de artículos de: {url}")
+        articles = []
+        try:
+            response = self.session.get(url, timeout=15)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.content, 'html.parser')
+
+            next_data_script = soup.find('script', id='__NEXT_DATA__')
+            if next_data_script:
+                data = json.loads(next_data_script.string)
+                items = data['props']['pageProps']['layoutData']['sitecore']['route']['placeholders']['jss-main'][0]['placeholders']['filtered-list-overview-filtered-list'][0]['fields']['items']
+
+                for item in items:
+                    title = item.get('headline', {}).get('value')
+                    article_url_path = item.get('cta', {}).get('value', {}).get('href')
+                    date = item.get('date', {}).get('value')
+
+                    if title and article_url_path:
+                        article_url = urljoin(url, article_url_path)
+                        articles.append({
+                            'title': title,
+                            'url': article_url,
+                            'date': date,
+                            'source': 'SGS Chile'
+                        })
+        except Exception as e:
+            self.logger.error(f"Error extrayendo la lista de noticias de SGS Chile: {e}")
+
+        self.logger.info(f"Encontrados {len(articles)} artículos en SGS Chile.")
+        return articles
 
     def scrape_isoexpertise_news(self) -> List[Dict[str, str]]:
         """
@@ -95,7 +135,7 @@ class ISONewsScraperEnhanced:
             if og_image:
                 content_data['image_url'] = urljoin(article_url, og_image['content'])
             else:
-                content_img = soup.select_one('.entry-content img, .post-content img, .article-body img, .content img')
+                content_img = soup.select_one('.entry-content img, .post-content img, .article-body img, .content img, article img')
                 if content_img and content_img.get('src'):
                     content_data['image_url'] = urljoin(article_url, content_img['src'])
 
