@@ -1,6 +1,9 @@
 ---
 import { Menu, ChevronDown, MessageCircle } from 'lucide-astro';
 import DateTimeWidget from './DateTimeWidget.astro';
+import allNews from '../data/all_news.json';
+
+const topNews = allNews.slice(0, 18);
 ---
 
 <header class="bg-white shadow-md sticky top-0 z-50">
@@ -106,11 +109,26 @@ import DateTimeWidget from './DateTimeWidget.astro';
             <span>Actualidad</span>
             <ChevronDown size="16" />
           </button>
-          <div class="absolute left-0 mt-2 w-64 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+          <div class="absolute left-1/2 -translate-x-1/2 mt-2 w-[400px] bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10 max-h-[70vh] overflow-y-auto">
             <div class="py-2">
-              <a href="/noticias-pyme" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-accent-800">Noticias Pyme</a>
-              <a href="/iso-noticias" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-accent-800">Noticias ISO</a>
-             <a href="/efemerides" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-accent-800">Efemérides</a>
+              {topNews.map(news => (
+                <a href={news.url} target="_blank" rel="noopener noreferrer" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-accent-800 transition-colors">
+                  <div class="w-16 h-12 bg-gray-100 rounded-md overflow-hidden mr-4 flex-shrink-0">
+                    {news.image ? (
+                      <img src={news.image} alt={news.title} class="w-full h-full object-cover" />
+                    ) : (
+                      <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400 text-xs text-center">Sin Imagen</div>
+                    )}
+                  </div>
+                  <div class="flex-grow">
+                    <p class="font-semibold line-clamp-2 leading-tight">{news.title}</p>
+                    <p class="text-xs text-gray-500 mt-1">{new Date(news.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })} - {news.source}</p>
+                  </div>
+                </a>
+              ))}
+               <div class="border-t border-gray-100 mt-2 pt-2 px-4">
+                 <a href="/noticias" class="block text-center text-sm font-medium text-accent-800 hover:underline">Ver todas las noticias</a>
+               </div>
             </div>
           </div>
         </div>
@@ -226,3 +244,11 @@ import DateTimeWidget from './DateTimeWidget.astro';
     }
   });
 </script>
+<style>
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>
