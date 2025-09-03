@@ -35,69 +35,142 @@ class ISONewsScraperEnhanced:
         
         self.news_data = []
         self.inn_news_url = "https://www.inn.cl/noticias"
-        self.hardcoded_articles = [
-            {
-                "title": "Normas Aprobadas Julio 2025",
-                "url": "https://www.inn.cl/normas-aprobadas-julio-2025",
-                "source": "Instituto Nacional de Normalización (INN)",
-                "date": "30/07/2025",
-                "summary": "8 nuevas normas ISO aprobadas por el INN en julio 2025, incluyendo microbiología alimentaria, sostenibilidad en edificios y transporte inteligente"
-            },
-            {
-                "title": "CMP certifica su Modelo GRP con tres normas internacionales ISO",
-                "url": "https://www.mch.cl/negocios-industria/cmp-certifica-su-modelo-grp-con-tres-normas-internacionales-iso/",
-                "source": "Minería Chilena",
-                "date": "30/07/2025",
-                "summary": "CMP logra certificación triple ISO tras auditoría a 69 procesos en el Valle de Copiapó"
-            },
-            {
-                "title": "San Antonio Terminal Internacional renueva certificaciones ISO 9001 e ISO 14001",
-                "url": "https://www.empresaoceano.cl/san-antonio-terminal-internacional-renueva-certificaciones-iso-9001-e",
-                "source": "Empresa Océano",
-                "date": "25/07/2025",
-                "summary": "STI renueva certificaciones ISO 9001 e ISO 14001, manteniendo también ISO 45001 e ISO 50001"
-            },
-            {
-                "title": "ISP recibe al Instituto Nacional de Normalización (INN) para verificar capacidades técnicas del Laboratorio de Metrología",
-                "url": "https://www.ispch.gob.cl/noticia/isp-recibe-al-instituto-nacional-de-normalizacion-inn-para-verificar-capacidades-tecnicas-del-laboratorio-de-metrologia/",
-                "source": "Instituto de Salud Pública",
-                "date": "25/07/2025",
-                "summary": "Visita técnica del INN al ISP para verificar capacidades de la Red Nacional de Metrología"
-            },
-            {
-                "title": "AdClean obtiene la certificación ISO 9001 otorgada por Bureau Veritas",
-                "url": "https://www.adclean.cl/blogs/noticias/certificacion-iso-9001",
-                "source": "Bureau Veritas",
-                "date": "21/11/2023",
-                "summary": "AdClean obtiene la certificación ISO 9001 otorgada por Bureau Veritas, reflejando el compromiso con la calidad y la excelencia."
-            }
-        ]
+        self.isotools_blog_url = "https://www.isotools.us/blog-corporativo/"
+        self.aenor_revista_url = "https://revista.aenor.com/"
+        self.anexia_blog_url = "https://consultoria.anexia.es/blog/"
+        self.hardcoded_articles = []
+
+    def _parse_spanish_date(self, date_str: str) -> str:
+        """
+        Parsea una fecha en formato 'DD MMMM, YYYY' en español a 'DD/MM/YYYY'.
+        """
+        if not date_str:
+            return ''
+
+        meses = {
+            'enero': '01', 'febrero': '02', 'marzo': '03', 'abril': '04',
+            'mayo': '05', 'junio': '06', 'julio': '07', 'agosto': '08',
+            'septiembre': '09', 'octubre': '10', 'noviembre': '11', 'diciembre': '12'
+        }
+
+        try:
+            parts = date_str.lower().replace(',', '').split()
+            if len(parts) == 3:
+                day, month_name, year = parts
+                month = meses.get(month_name)
+                if month:
+                    return f"{int(day):02d}/{month}/{year}"
+        except Exception as e:
+            self.logger.warning(f"No se pudo parsear la fecha '{date_str}': {e}")
+
+        return date_str
 
     def scrape_inn_news(self) -> List[Dict[str, str]]:
         """
         Extrae las noticias directamente de la página de noticias del INN.
+        (Función desactivada para excluir noticias del INN)
         """
-        self.logger.info(f"Extrayendo noticias de: {self.inn_news_url}")
+        self.logger.info("La extracción de noticias del INN ha sido desactivada.")
+        return []
+
+    def scrape_isotools_blog(self) -> List[Dict[str, str]]:
+        """
+        Extrae la lista de artículos del blog de ISOTools.
+        """
+        self.logger.info(f"Extrayendo lista de noticias de: {self.isotools_blog_url}")
         articles = []
         try:
-            response = self.session.get(self.inn_news_url, timeout=15)
+            response = self.session.get(self.isotools_blog_url, timeout=15)
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
 
-            news_rows = soup.select('table.views-table tbody tr')
-            for row in news_rows:
-                date_cell = row.select_one('td.views-field-created')
-                title_cell = row.select_one('td.views-field-title a')
+            for article_tag in soup.select('div.wpex-post-cards-entry'):
+                title_link = article_tag.select_one('h2.wpex-card-title a')
+                if title_link:
+                    url = title_link.get('href')
+                    title = title_link.get_text(strip=True)
 
-                if date_cell and title_cell:
-                    date = date_cell.get_text(strip=True)
-                    title = title_cell.get_text(strip=True)
-                    url = urljoin(self.inn_news_url, title_cell['href'])
-                    articles.append({'title': title, 'url': url, 'date': date, 'source': 'INN'})
+                    date_tag = article_tag.select_one('div.wpex-card-date')
+                    date_str = date_tag.get_text(strip=True) if date_tag else ''
+                    formatted_date = self._parse_spanish_date(date_str)
+
+                    articles.append({
+                        'title': title,
+                        'url': url,
+                        'date': formatted_date,
+                        'source': 'ISOTools Blog'
+                    })
         except Exception as e:
-            self.logger.error(f"Error extrayendo noticias del INN: {e}")
+            self.logger.error(f"Error extrayendo noticias de ISOTools: {e}")
 
         return articles
+
+    def scrape_aenor_revista(self) -> List[Dict[str, str]]:
+        """
+        Extrae las noticias de la revista de AENOR.
+        """
+        self.logger.info(f"Extrayendo noticias de: {self.aenor_revista_url}")
+        articles = []
+        try:
+            issues_page_url = "https://revista.aenor.com/adicional/revistas-anteriores.html"
+            response = self.session.get(issues_page_url, timeout=15)
+            response.raise_for_status()
+            soup = BeautifulSoup(response.content, 'html.parser')
+
+            issue_links = []
+            for link in soup.select('div.licont a[href]'):
+                href = link.get('href')
+                if href and 'descargar' not in href.lower() and href not in issue_links:
+                    issue_links.append(urljoin(issues_page_url, href))
+
+            for issue_url in issue_links:
+                try:
+                    issue_response = self.session.get(issue_url, timeout=15)
+                    issue_soup = BeautifulSoup(issue_response.content, 'html.parser')
+
+                    issue_title_tag = issue_soup.select_one('h1#menu_revista')
+                    issue_title = issue_title_tag.get_text(strip=True) if issue_title_tag else ''
+                    date_match = re.search(r'\|\s*([\w-]+)\s*\|\s*(\d{4})', issue_title)
+                    date_str = f"01 {date_match.group(1).split('-')[0]} {date_match.group(2)}" if date_match else ''
+
+                    # Main articles
+                    for article_link in issue_soup.select('ul.lista_imagenes li a'):
+                        url = urljoin(issue_url, article_link.get('href'))
+                        title = article_link.get('title')
+                        if title and url not in [a['url'] for a in articles]:
+                            articles.append({
+                                'title': title,
+                                'url': url,
+                                'date': self._parse_spanish_date(date_str.replace(' ', ', ')),
+                                'source': 'Revista AENOR'
+                            })
+
+                    # "De un vistazo" articles
+                    for article_link in issue_soup.select('div.modulo_noticia a.hover'):
+                        url = urljoin(issue_url, article_link.get('href'))
+                        title = article_link.get_text(strip=True)
+                        if title and url not in [a['url'] for a in articles]:
+                            articles.append({
+                                'title': title,
+                                'url': url,
+                                'date': self._parse_spanish_date(date_str.replace(' ', ', ')),
+                                'source': 'Revista AENOR'
+                            })
+                except Exception as e:
+                    self.logger.warning(f"Error scraping issue {issue_url}: {e}")
+
+        except Exception as e:
+            self.logger.error(f"Error extrayendo noticias de AENOR: {e}")
+
+        return articles
+
+    def scrape_anexia_blog(self) -> List[Dict[str, str]]:
+        """
+        Extrae las noticias del blog de Anexia.
+        (Función desactivada porque el contenido se carga dinámicamente con JavaScript)
+        """
+        self.logger.warning("El scraper para Anexia Consultoría está desactivado debido a la carga dinámica de contenido.")
+        return []
 
     def scrape_direct_urls(self, articles_to_scrape: List[Dict[str, str]]) -> List[Dict[str, Any]]:
         """
@@ -192,7 +265,7 @@ class ISONewsScraperEnhanced:
         output_data = {
             "metadata": {
                 "generated_at": datetime.now().isoformat(),
-                "data_source": self.inn_news_url,
+                "data_source": "Multiple Sources",
                 "total_articles": len(data),
                 "successful_scrapes": len([a for a in data if a.get('scraping_success', False)]),
                 "failed_scrapes": len([a for a in data if not a.get('scraping_success', True)])
@@ -220,8 +293,14 @@ class ISONewsScraperEnhanced:
         # 1. Obtener la lista de artÃ­culos de INN
         inn_articles = self.scrape_inn_news()
         
+        # Obtener articulos de nuevas fuentes
+        isotools_articles = self.scrape_isotools_blog()
+        aenor_articles = self.scrape_aenor_revista()
+        anexia_articles = self.scrape_anexia_blog()
+
         # 2. Combinar con artÃ­culos hardcodeados y de-duplicar
-        combined_articles = {article['url']: article for article in inn_articles}
+        all_articles = inn_articles + isotools_articles + aenor_articles + anexia_articles
+        combined_articles = {article['url']: article for article in all_articles}
         for article in self.hardcoded_articles:
             if article['url'] not in combined_articles:
                 combined_articles[article['url']] = article
