@@ -237,10 +237,10 @@ class ISONewsScraperEnhanced:
         """
         self.logger.info("Iniciando el scraping de noticias ISO Chile")
         
-        # 1. Obtener la lista de artÃ­culos de INN
-        inn_articles = self.scrape_inn_news()
+        # 1. Obtener la lista de artículos de INN
+        inn_articles = []  # O dejar vacío si no es necesario, o reemplazar por otro método si corresponde
         
-        # 2. Combinar con artÃ­culos hardcodeados y de-duplicar
+        # 2. Combinar con artículos hardcodeados y de-duplicar
         combined_articles = {article['url']: article for article in inn_articles}
         for article in self.hardcoded_articles:
             if article['url'] not in combined_articles:
@@ -248,8 +248,8 @@ class ISONewsScraperEnhanced:
 
         articles_to_scrape = list(combined_articles.values())
 
-        # 3. Extraer contenido para todos los artÃ­culos
-        self.logger.info(f"Se procesarÃ¡n {len(articles_to_scrape)} artÃ­culos Ãºnicos.")
+        # 3. Extraer contenido para todos los artículos
+        self.logger.info(f"Se procesará(n) {len(articles_to_scrape)} artículo(s) único(s).")
         final_articles = self.scrape_direct_urls(articles_to_scrape)
 
         files_generated = {}
@@ -265,7 +265,7 @@ class ISONewsScraperEnhanced:
 
 
 def main():
-    """FunciÃ³n principal del script"""
+    """Función principal del script"""
     print("ðŸš€ Iniciando scraper de noticias ISO en Chile desde INN")
     print("=" * 60)
     
@@ -282,7 +282,7 @@ def main():
             print(f"   â€¢ {file_type.replace('_', ' ').title()}: {filename}")
         
     except Exception as e:
-        print(f"âŒ Error durante la ejecuciÃ³n: {str(e)}")
+        print(f"âŒ Error durante la ejecución: {str(e)}")
         raise
 
 
