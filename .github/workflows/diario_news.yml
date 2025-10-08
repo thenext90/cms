@@ -24,24 +24,13 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
-    - name: 🐍 Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-        cache: 'pip'
-    - name: 📦 Install Python dependencies
+    - name: 📥 Descargar JSON de noticias desde otro repo
       run: |
-        python -m pip install --upgrade pip
-        pip install -r scripts/requirements.txt
-    - name: 🚀 Ejecutar scraper de noticias ISO
-      run: |
-        python scripts/iso_news_scraper_real.py
-        python scripts/iso_news_scraper_enhanced.py
-        python scripts/iso_news_scraper_newsapi.py
+        curl -L "https://raw.githubusercontent.com/thenext90/noticias_isotools_cms/refs/heads/main/isotools-daily-news.json" -o src/data/isotools-daily-news.json
     - name: 📝 Commit y push si hay cambios
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add src/data/*.json || true
-        git commit -m 'chore: auto-update ISO news data' || echo 'No changes to commit'
+        git add src/data/isotools-daily-news.json || true
+        git commit -m 'chore: auto-update ISOTools daily news JSON' || echo 'No changes to commit'
         git push || echo 'No changes to push'
