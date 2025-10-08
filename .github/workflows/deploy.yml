@@ -1,4 +1,4 @@
-name: Deploy CMS diario
+name: Deploy
 
 on:
   schedule:
