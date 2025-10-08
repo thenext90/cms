@@ -32,39 +32,46 @@ export default function ISOToolsSectionClient() {
     <section className="py-12 text-center"><p>No hay noticias disponibles.</p></section>
   );
 
+  // LOG VISUAL DE DEPURACIÓN
   return (
-    <section className="pb-6 pt-12 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-xl font-bold text-accent-800 bg-accent-50 inline-block px-6 py-3 rounded-full border-2 border-accent-200">
-            Consejos y tendencias para ayudarte a mejorar tus sistemas de gestión
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {data.map((article) => (
-            <article key={article.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
-              <div className="p-6 border-b border-gray-100">
-                <h3 className="text-lg font-bold text-gray-800 leading-tight mb-3 group-hover:text-accent-800 transition-colors">
-                  {article.title}
-                </h3>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  {article.ai_summary}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-xs text-gray-500">
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">✨ Resumen IA</span>
-                  </div>
-                  <div className="flex items-center text-xs text-gray-400">
-                    <span>Fuente: isotools.us</span>
+    <>
+      <section className="py-2 text-xs bg-yellow-100 text-yellow-900 border border-yellow-300 mb-4">
+        <strong>DEBUG JSON recibido:</strong>
+        <pre style={{whiteSpace: 'pre-wrap', wordBreak: 'break-all'}}>{JSON.stringify(data, null, 2)}</pre>
+      </section>
+      <section className="pb-6 pt-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-xl font-bold text-accent-800 bg-accent-50 inline-block px-6 py-3 rounded-full border-2 border-accent-200">
+              Consejos y tendencias para ayudarte a mejorar tus sistemas de gestión
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {data.map((article) => (
+              <article key={article.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                <div className="p-6 border-b border-gray-100">
+                  <h3 className="text-lg font-bold text-gray-800 leading-tight mb-3 group-hover:text-accent-800 transition-colors">
+                    {article.title}
+                  </h3>
+                </div>
+                <div className="p-6">
+                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                    {article.ai_summary}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center text-xs text-gray-500">
+                      <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">✨ Resumen IA</span>
+                    </div>
+                    <div className="flex items-center text-xs text-gray-400">
+                      <span>Fuente: isotools.us</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
