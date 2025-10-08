@@ -50,6 +50,9 @@ class ISONewsScraperEnhanced:
             'cooperativa.cl', 'biobiochile.cl', 'adnradio.cl',
             'cnnchile.com', 't13.cl', 'meganoticias.cl'
         ]
+        
+        # Lista de artículos hardcodeados (puedes agregar manualmente si lo deseas)
+        self.hardcoded_articles = []
 
     def search_newsapi(self, query: str, language: str = 'es', days_back: int = 30) -> List[Dict[str, Any]]:
         """
