@@ -88,43 +88,6 @@ function truncateText(text, maxLength = 999999) {
   // Mostrar texto completo sin límite
   return text;
 }
-      ai_summary: "El cumplimiento de la norma ISO 27001 es crucial para garantizar la seguridad de la información en las organizaciones.",
-      category: "ISO_27001_Seguridad_Informacion",
-      extracted_at: "2025-10-03T01:48:36.651Z"
-    }
-  ],
-  statistics: {
-    ai_success_rate: "100%"
-  }
-};
-
-// Usar datos reales o fallback y filtrar la noticia específica
-let displayData = isoData || fallbackData;
-
-// Adaptar estructura del nuevo JSON (daily_news vs data)
-if (displayData && displayData.daily_news) {
-  // Nuevo formato: usar daily_news
-  displayData.data = displayData.daily_news;
-} else if (displayData && !displayData.data) {
-  // Si no hay datos, usar fallback
-  displayData = fallbackData;
-}
-
-// Función para formatear la fecha
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('es-ES', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-}
-
-// Función para mostrar texto completo (sin truncar)
-function truncateText(text, maxLength = 999999) {
-  // Mostrar texto completo sin límite
-  return text;
-}
 ---
 
 <section class="pb-6 pt-12 bg-gray-50">
@@ -182,8 +145,8 @@ function truncateText(text, maxLength = 999999) {
       <div class="text-center py-12">
         <div class="bg-white rounded-xl shadow-lg p-8 max-w-md mx-auto">
           <AlertCircle size="48" class="text-yellow-500 mx-auto mb-4" />
-          <h3 class="text-lg font-semibold text-gray-800 mb-2">Contenido no disponible</h3>
-          <p class="text-gray-600">No se pudieron cargar los artículos en este momento.</p>
+          <h3 class="text-lg font-semibold text-gray-800 mb-2">Noticias no encontradas</h3>
+          <p class="text-gray-600">No se pudieron cargar las noticias de ISOTools en este momento.</p>
         </div>
       </div>
     )}
