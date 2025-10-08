@@ -1,4 +1,4 @@
-﻿name: 🔄 Auto-Update ISO News Data
+﻿name: 🔄 diario_news
 
 on:
   schedule:
