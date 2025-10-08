@@ -2,7 +2,7 @@ name: Deploy CMS diario
 
 on:
   schedule:
-    - cron: '0 7 * * *' # Todos los días a las 07:00 UTC (ajusta la hora según tu zona horaria)
+    - cron: '30 6 * * *' # Todos los días a las 06:30 UTC (30 minutos después del update)
   workflow_dispatch:
 
 jobs:
