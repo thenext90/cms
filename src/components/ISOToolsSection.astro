@@ -1,9 +1,93 @@
 ---
----
-import ISOToolsSectionClient from './ISOToolsSectionClient.jsx';
----
+import { Clock, AlertCircle } from 'lucide-astro';
 
-<ISOToolsSectionClient client:load />
+// Función para obtener datos de ISOTools usando archivo RAW
+async function getISOToolsData() {
+  try {
+    const timestamp = Date.now();
+    // Usar archivo RAW de GitHub con cache-busting
+    const response = await fetch(`https://raw.githubusercontent.com/thenext90/noticias_isotools_cms/main/isotools-daily-news.json?t=${timestamp}`, {
+      cache: 'no-cache',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
+    if (!response.ok) {
+      console.warn('No se pudieron cargar los datos de ISOTools');
+      return null;
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error al cargar datos de ISOTools:', error);
+    return null;
+  }
+}
+
+let isoData = null;
+try {
+  isoData = await getISOToolsData();
+} catch (error) {
+  console.error('Error fetching ISOTools data:', error);
+}
+
+// Datos de fallback si no se pueden cargar los datos reales
+const fallbackData = {
+  metadata: {
+    total_articles: 5,
+    ai_model: "OpenAI GPT-3.5-turbo"
+  },
+  data: [
+    {
+      id: 1,
+      title: "Riesgos psicosociales avanzados: la nueva frontera de la seguridad laboral en ISO 45001",
+      url: "https://www.cmsconsultores.cl/riesgos-psicosociales",
+      ai_summary: "La evaluación avanzada de riesgos psicosociales se posiciona como elemento crítico en los sistemas de gestión de seguridad laboral. Las organizaciones deben implementar metodologías de detección temprana de burnout, análisis de clima organizacional, gestión del estrés laboral y protocolos de bienestar mental. Esta evolución incluye herramientas de monitoreo continuo y programas preventivos que protegen la salud mental como componente esencial de la seguridad ocupacional.",
+      category: "ISO_45001_Riesgos_Psicosociales",
+      extracted_at: "2025-10-03T01:48:36.651Z"
+    },
+    {
+      id: 3,
+      title: "Cumplimiento ISO 27001: los 9 pasos esenciales para preparar tu certificación",
+      url: "https://www.isotools.us/",
+      ai_summary: "El cumplimiento de la norma ISO 27001 es crucial para garantizar la seguridad de la información en las organizaciones.",
+      category: "ISO_27001_Seguridad_Informacion",
+      extracted_at: "2025-10-03T01:48:36.651Z"
+    }
+  ],
+  statistics: {
+    ai_success_rate: "100%"
+  }
+};
+
+// Usar datos reales o fallback y filtrar la noticia específica
+let displayData = isoData || fallbackData;
+
+// Adaptar estructura del nuevo JSON (daily_news vs data)
+if (displayData && displayData.daily_news) {
+  // Nuevo formato: usar daily_news
+  displayData.data = displayData.daily_news;
+} else if (displayData && !displayData.data) {
+  // Si no hay datos, usar fallback
+  displayData = fallbackData;
+}
+
+// Función para formatear la fecha
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+// Función para mostrar texto completo (sin truncar)
+function truncateText(text, maxLength = 999999) {
+  // Mostrar texto completo sin límite
+  return text;
+}
       ai_summary: "El cumplimiento de la norma ISO 27001 es crucial para garantizar la seguridad de la información en las organizaciones.",
       category: "ISO_27001_Seguridad_Informacion",
       extracted_at: "2025-10-03T01:48:36.651Z"
