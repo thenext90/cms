@@ -58,23 +58,15 @@ export default function ISOToolsSectionClient() {
                   />
                 </div>
               )}
-              <div className="p-6 border-b border-gray-100">
+              <div className="p-6">
                 <h3 className="text-lg font-bold text-gray-800 leading-tight mb-3 group-hover:text-accent-800 transition-colors">
                   {article.title}
                 </h3>
-              </div>
-              <div className="p-6">
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
-                  {article.ai_summary}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center text-xs text-gray-500">
-                    <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">✨ Resumen IA</span>
-                  </div>
-                  <div className="flex items-center text-xs text-gray-400">
-                    <span>Fuente: isotools.us</span>
-                  </div>
-                </div>
+                {article.text && (
+                  <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
+                    {article.text}
+                  </p>
+                )}
               </div>
             </article>
           ))}
