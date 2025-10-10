@@ -9,7 +9,7 @@ export default function ISOToolsSectionClient() {
     async function fetchData() {
       try {
         const timestamp = Date.now();
-        const response = await fetch(`https://raw.githubusercontent.com/thenext90/noticias_isotools_cms/main/isotools-daily-news.json?t=${timestamp}`);
+  const response = await fetch(`https://raw.githubusercontent.com/thenext90/noticias_isotools_cms/refs/heads/main/isotools-daily-news.json?t=${timestamp}`);
         if (!response.ok) throw new Error('No se pudo cargar el archivo remoto');
         const json = await response.json();
         setData(json.daily_news || []);
