@@ -32,6 +32,11 @@ export default function ISOToolsSectionClient() {
     <section className="py-12 text-center"><p>No hay noticias disponibles.</p></section>
   );
 
+  // Filtrar duplicados por ID (si existieran)
+  const uniqueArticles = Array.isArray(data)
+    ? data.filter((item, idx, arr) => arr.findIndex(a => a.id === item.id) === idx)
+    : [];
+
   return (
     <section className="pb-6 pt-12 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,8 +46,18 @@ export default function ISOToolsSectionClient() {
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {data.map((article) => (
+          {uniqueArticles.map((article) => (
             <article key={article.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+              {article.image_url && (
+                <div className="w-full h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={article.image_url}
+                    alt={article.title}
+                    className="object-cover w-full h-full max-h-48"
+                    style={{ objectFit: 'cover', width: '100%', height: '100%', maxHeight: '12rem' }}
+                  />
+                </div>
+              )}
               <div className="p-6 border-b border-gray-100">
                 <h3 className="text-lg font-bold text-gray-800 leading-tight mb-3 group-hover:text-accent-800 transition-colors">
                   {article.title}
