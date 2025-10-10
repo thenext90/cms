@@ -32,9 +32,15 @@ export default function ISOToolsSectionClient() {
     <section className="py-12 text-center"><p>No hay noticias disponibles.</p></section>
   );
 
-  // Filtrar duplicados por ID (si existieran)
+  // Filtrar duplicados por título+texto si no hay id
   const uniqueArticles = Array.isArray(data)
-    ? data.filter((item, idx, arr) => arr.findIndex(a => a.id === item.id) === idx)
+    ? data.filter((item, idx, arr) => {
+        if (item.id !== undefined) {
+          return arr.findIndex(a => a.id === item.id) === idx;
+        }
+        // Si no hay id, usar combinación de título y texto
+        return arr.findIndex(a => a.title === item.title && a.text === item.text) === idx;
+      })
     : [];
 
   return (
@@ -46,8 +52,8 @@ export default function ISOToolsSectionClient() {
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {uniqueArticles.map((article) => (
-            <article key={article.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
+          {uniqueArticles.map((article, idx) => (
+            <article key={article.id ?? idx} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group">
               {article.image_url && (
                 <div className="w-full h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
                   <img
