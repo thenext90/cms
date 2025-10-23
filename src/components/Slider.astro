@@ -2,28 +2,38 @@
 // Simple CSS/JS slider without external dependencies
 ---
 
-<div class="slider-container">
-  <div class="slider" id="image-slider">
-    <div class="slide active">
-      <img src="/slider1.jpg" alt="Slide 1" />
+
+
+<div class="modern-slider-container">
+  <div class="modern-slider" id="modern-slider">
+    <div class="modern-slide active">
+      <img src="/slider1.jpg" alt="Innovación ISO" />
+      <div class="modern-slide-overlay">
+        <h2 class="modern-slide-title">Innovación ISO</h2>
+        <p class="modern-slide-desc">Descubre las últimas tendencias en certificación internacional.</p>
+      </div>
     </div>
-    <div class="slide">
-      <img src="/silder2.jpg" alt="Slide 2" />
+    <div class="modern-slide">
+  <img src="/images/business-people-smiling.jpg" alt="Personas trabajando y sonriendo" />
+      <div class="modern-slide-overlay">
+        <h2 class="modern-slide-title">Calidad Garantizada</h2>
+        <p class="modern-slide-desc">Asegura la excelencia en tus procesos con normas ISO.</p>
+      </div>
     </div>
-    <div class="slide">
-      <img src="/slider3.jpg" alt="Slide 3" />
+    <div class="modern-slide">
+      <img src="/slider3.jpg" alt="Crecimiento Sostenible" />
+      <div class="modern-slide-overlay">
+        <h2 class="modern-slide-title">Crecimiento Sostenible</h2>
+        <p class="modern-slide-desc">Impulsa tu empresa hacia el futuro con certificaciones globales.</p>
+      </div>
     </div>
   </div>
-  
-  <!-- Navigation buttons -->
-  <button class="nav-btn prev-btn" onclick="changeSlide(-1)">&#10094;</button>
-  <button class="nav-btn next-btn" onclick="changeSlide(1)">&#10095;</button>
-  
-  <!-- Dots indicator -->
-  <div class="dots-container">
-    <span class="dot active" onclick="currentSlide(1)"></span>
-    <span class="dot" onclick="currentSlide(2)"></span>
-    <span class="dot" onclick="currentSlide(3)"></span>
+  <button class="modern-nav-btn modern-prev-btn" onclick="modernChangeSlide(-1)">&#8592;</button>
+  <button class="modern-nav-btn modern-next-btn" onclick="modernChangeSlide(1)">&#8594;</button>
+  <div class="modern-indicators">
+    <span class="modern-indicator active" onclick="modernCurrentSlide(1)"></span>
+    <span class="modern-indicator" onclick="modernCurrentSlide(2)"></span>
+    <span class="modern-indicator" onclick="modernCurrentSlide(3)"></span>
   </div>
 </div>
 
@@ -52,108 +62,180 @@
     dots[slideIndex - 1].classList.add('active');
   }
 
-  // Auto-slide every 5 seconds
-  setInterval(() => {
-    changeSlide(1);
-  }, 5000);
 
-  // Initialize slider
+  // Barra de progreso animada
+  let progressInterval;
+  function startProgressBar() {
+    const bar = document.getElementById('progress-bar');
+    let width = 0;
+    clearInterval(progressInterval);
+    bar.style.width = '0%';
+    progressInterval = setInterval(() => {
+      width += 2;
+      bar.style.width = width + '%';
+      if (width >= 100) {
+        changeSlide(1);
+        startProgressBar();
+      }
+    }, 100);
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
     showSlide(slideIndex);
+    startProgressBar();
   });
+
+  // Initialize slider
+
 </script>
 
 <style>
+
 .slider-container {
   position: relative;
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
-}
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
 
-.slider {
-  position: relative;
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  border-radius: 8px;
-}
+  <script>
+    let modernSlideIndex = 1;
+    function modernChangeSlide(n) {
+      modernShowSlide(modernSlideIndex += n);
+    }
+    function modernCurrentSlide(n) {
+      modernShowSlide(modernSlideIndex = n);
+    }
+    function modernShowSlide(n) {
+      const slides = document.querySelectorAll('.modern-slide');
+      const indicators = document.querySelectorAll('.modern-indicator');
+      if (n > slides.length) { modernSlideIndex = 1; }
+      if (n < 1) { modernSlideIndex = slides.length; }
+      slides.forEach(slide => slide.classList.remove('active'));
+      indicators.forEach(ind => ind.classList.remove('active'));
+      slides[modernSlideIndex - 1].classList.add('active');
+      indicators[modernSlideIndex - 1].classList.add('active');
+    }
+    setInterval(() => {
+      modernChangeSlide(1);
+    }, 6000);
+    document.addEventListener('DOMContentLoaded', function() {
+      modernShowSlide(modernSlideIndex);
+    });
+  </script>
 
-.slide {
-  display: none;
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.slide.active {
-  display: block;
-}
-
-.slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
-  border: none;
-  padding: 16px 20px;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 0 3px 3px 0;
-  user-select: none;
-  z-index: 10;
-  transition: background-color 0.3s;
-}
-
-.nav-btn:hover {
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
-.prev-btn {
-  left: 0;
-  border-radius: 0 3px 3px 0;
-}
-
-.next-btn {
-  right: 0;
-  border-radius: 3px 0 0 3px;
-}
-
-.dots-container {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 5px;
-  background-color: #bbb;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.3s;
-}
-
-.dot.active,
-.dot:hover {
-  background-color: #717171;
-}
-
-/* Fade animation */
-.slide {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.slide.active {
-  opacity: 1;
-}
-</style>
+  <style>
+  .modern-slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto;
+    box-shadow: 0 6px 32px rgba(139,46,46,0.18);
+    border-radius: 20px;
+    background: #3a1c1c;
+  }
+  .modern-slider {
+    position: relative;
+    width: 100%;
+    height: 370px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #8B2E2E;
+  }
+  .modern-slide {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    transform: translateX(40px) scale(1.04);
+    transition: opacity 0.7s, transform 0.7s;
+  }
+  .modern-slide.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    z-index: 2;
+  }
+  .modern-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 4px 24px rgba(139,46,46,0.22);
+  }
+  .modern-slide-overlay {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 36px 28px 28px 28px;
+    background: linear-gradient(0deg,rgba(58,28,28,0.92) 80%,rgba(139,46,46,0.18) 100%);
+    color: #fff;
+    border-radius: 0 0 20px 20px;
+  }
+  .modern-slide-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    letter-spacing: 0.02em;
+    color: #FFD6D6;
+  }
+  .modern-slide-desc {
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-bottom: 0;
+    color: #F5BABA;
+  }
+  .modern-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(139,46,46,0.85);
+    color: #fff;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 2rem;
+    box-shadow: 0 2px 8px rgba(139,46,46,0.18);
+    z-index: 10;
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  .modern-nav-btn:hover {
+    background: #8B2E2E;
+    box-shadow: 0 4px 16px rgba(139,46,46,0.22);
+  }
+  .modern-prev-btn {
+    left: 22px;
+  }
+  .modern-next-btn {
+    right: 22px;
+  }
+  .modern-indicators {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 20;
+  }
+  .modern-indicator {
+    width: 38px;
+    height: 6px;
+    background: #FFD6D6;
+    border-radius: 3px;
+    opacity: 0.5;
+    cursor: pointer;
+    transition: opacity 0.3s, background 0.3s;
+  }
+  .modern-indicator.active,
+  .modern-indicator:hover {
+    opacity: 1;
+    background: #F5BABA;
+  }
+  </style>
