@@ -4,12 +4,12 @@
     "fecha_scraping": "2025-08-04T09:54:04.649900",
     "total_noticias": 227,
     "noticias": [
-        {
-            "fecha": "Febrero 10, 2026",
-            "texto": "Optimización y digitalización de procesos del Sistema de Gestión mediante automatización de registros, trazabilidad en tiempo real y control documental digital.",
-            "imagen": "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
-            "link": "https://www.cmsconsultores.cl/13-noticiascms/optimización-digitalizacion-2026.html"
-        },
+      {
+           "fecha": "Febrero 10, 2026",
+           "texto": "se inicia proceso de Optimización de procesos del Sistema de Gestión e implementación de sistemas bajo normas ISO 9001:2015, ISO 14001:2015 e ISO 45001:2018, fortaleciendo calidad, gestión ambiental y seguridad laboral.",
+           "imagen": "https://raw.githubusercontent.com/thenext90/cms/refs/heads/main/public/images/2026/mineria_antofa2.jpg",
+           "link": "https://www.cmsconsultores.cl/13-noticiascms/optimización-digitalizacion-2026.html"
+         },
          {
             "fecha": "Enero 16, 2026",
             "texto": "Certificación Empresa  ISO Integrada  ISO 9001 (calidad), ISO 14001 (medio ambiente) e ISO 45001 (seguridad) ",
