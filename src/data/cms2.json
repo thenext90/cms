@@ -2,8 +2,50 @@
     "sitio_web": "CMS Consultores",
     "url": "https://www.cmsconsultores.cl",
     "fecha_scraping": "2025-08-04T09:54:04.649900",
-    "total_noticias": 220,
+    "total_noticias": 227,
     "noticias": [
+        {
+            "fecha": "Febrero 10, 2026",
+            "texto": "Optimización y digitalización de procesos del Sistema de Gestión mediante automatización de registros, trazabilidad en tiempo real y control documental digital.",
+            "imagen": "https://images.unsplash.com/photo-1551288049-bebda4e38f71",
+            "link": "https://www.cmsconsultores.cl/13-noticiascms/optimización-digitalizacion-2026.html"
+        },
+        {
+            "fecha": "Enero 15, 2026",
+            "texto": "Auditoría interna integrada y preparación para certificación externa bajo estándares internacionales ISO, fortaleciendo la mejora continua y cumplimiento normativo.",
+            "imagen": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40",
+            "link": "https://www.cmsconsultores.cl/13-noticiascms/auditoria-interna-2026.html"
+        },
+        {
+            "fecha": "Diciembre 12, 2025",
+            "texto": "Implementación del Sistema de Inocuidad Alimentaria basado en HACCP e ISO 22000, incluyendo identificación de puntos críticos de control y fortalecimiento de la trazabilidad.",
+            "imagen": "https://images.unsplash.com/photo-1606787366850-de6330128bfc",
+            "link": "https://www.cmsconsultores.cl/13-noticiascms/inocuidad-alimentaria-2025.html"
+        },
+        {
+            "fecha": "Noviembre 18, 2025",
+            "texto": "Implementación del Sistema de Gestión de Seguridad de la Información ISO 27001, incorporando análisis de riesgos, controles de acceso y planes de continuidad operativa.",
+            "imagen": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b",
+            "link": "https://www.cmsconsultores.cl/13-noticiascms/seguridad-informacion-2025.html"
+        },
+        {
+            "fecha": "Octubre 20, 2025",
+            "texto": "Implementación de Sistema Integrado de Gestión bajo normas ISO 9001, ISO 14001 e ISO 45001, unificando procesos, indicadores y estructura documental.",
+            "imagen": "https://images.unsplash.com/photo-1507679799987-c73779587ccf",
+            "link": "https://www.cmsconsultores.cl/13-noticiascms/sistema-integrado-2025.html"
+        },
+        {
+            "fecha": "Septiembre 16, 2025",
+            "texto": "Implementación del Sistema de Gestión Ambiental ISO 14001, incorporando evaluación de aspectos e impactos ambientales y control de indicadores de sostenibilidad.",
+            "imagen": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee",
+            "link": "https://www.cmsconsultores.cl/13-noticiascms/gestion-ambiental-2025.html"
+        },
+        {
+            "fecha": "Agosto 14, 2025",
+            "texto": "Implementación del Sistema de Gestión de Seguridad y Salud en el Trabajo ISO 45001, fortaleciendo la identificación de riesgos y cultura preventiva organizacional.",
+            "imagen": "https://images.unsplash.com/photo-1581090700227-4c4f50a60f3c",
+            "link": "https://www.cmsconsultores.cl/13-noticiascms/seguridad-salud-2025.html"
+        },
         {
             "fecha": "Julio 02, 2025",
             "texto": "se  da inicio a su plan de  certificación en las normas internacionales ISO 9001:2015, de Gestión de la Calidad, e ISO 45001:2018, de Gestión de la Seguridad y Salud en el Trabajo. Este paso estratégico refleja el firme compromiso de Econativa.",
