@@ -6,7 +6,7 @@
   "noticias": [
     {
       "fecha": "Abril 29, 2026",
-      "texto": "Proceso de sistema de gestión HACCP y desarrollo de sistemas de gestión de calidad ISO integrada empresa alimentos RivasFOOD.",
+      "texto": "Proceso de sistema de gestión HACCP y desarrollo de sistemas de gestión de calidad ISO integrada empresa alimentos RivasFood.",
       "imagen": "https://www.cmsconsultores.cl/images/2026/rivas_food.png",
       "link": "https://www.cmsconsultores.cl/13-noticiascms/rivasfood-haccp-iso-integrada-2026.html"
     },
@@ -21,6 +21,12 @@
       "texto": "Empresa Limpieza Industrial Mago Chic en proceso de certificación ISO 45001, seguridad y prevención de riesgos.",
       "imagen": "https://www.cmsconsultores.cl/images/2026/mago98.png",
       "link": "https://www.cmsconsultores.cl/13-noticiascms/magochic-iso-45001-2026.html"
+    },
+     {
+      "fecha": "Abril 16, 2026",
+      "texto": "Empresa Alimentación Meals proceso de certificación en norma de Seguridad Alimentaria HACCP",
+      "imagen": "https://www.cmsconsultores.cl/images/2026/meal_98.png",
+      "link": ""
     },
     {
       "fecha": "Febrero 10, 2026",
