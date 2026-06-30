@@ -4,6 +4,30 @@
   "fecha_scraping": "2026-04-30T12:34:24.819858",
   "total_noticias": 243,
   "noticias": [
+           {
+      "fecha": "Julio 20, 2026",
+      "texto": "RIVAS FOOD EMPRESA DE ALIMENTOS PREPARADOS CERTIFICACION",
+      "imagen": "https://www.cmsconsultores.cl/images/2026/mpresa Econativa Sistemas de Gestion Ambiental ISO INTEGRADA",
+      "link": "https://www.cmsconsultores.cl/13-noticiascms/rivasfood-haccp-iso-integrada-2026.html"
+    },   
+       {
+      "fecha": "Julio 20, 2026",
+      "texto": "INGENALSE EMPRESA SERVICIOS MINEROS CERTIFICACION ISO INTEGRADA.",
+      "imagen": "https://www.cmsconsultores.cl/images/2026/mpresa Econativa Sistemas de Gestion Ambiental ISO INTEGRADA",
+      "link": "https://www.cmsconsultores.cl/13-noticiascms/rivasfood-haccp-iso-integrada-2026.html"
+    },    
+    {
+      "fecha": "Junio 20, 2026",
+      "texto": "Empresa Econativa Sistemas de Gestion Ambiental ISO INTEGRADA.",
+      "imagen": "https://www.cmsconsultores.cl/images/2026/mpresa Econativa Sistemas de Gestion Ambiental ISO INTEGRADA",
+      "link": "https://www.cmsconsultores.cl/13-noticiascms/rivasfood-haccp-iso-integrada-2026.html"
+    },
+    {
+      "fecha": "Mayo 20, 2026",
+      "texto": "Empresa Econativa Sistemas de Gestion Ambiental ISO INTEGRADA.",
+      "imagen": "https://www.cmsconsultores.cl/images/2026/mpresa Econativa Sistemas de Gestion Ambiental ISO INTEGRADA",
+      "link": "https://www.cmsconsultores.cl/13-noticiascms/rivasfood-haccp-iso-integrada-2026.html"
+    },
     {
       "fecha": "Abril 29, 2026",
       "texto": "Proceso de sistema de gestión HACCP y desarrollo de sistemas de gestión de calidad ISO integrada empresa alimentos RivasFood.",
